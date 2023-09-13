@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 
+# Tutorial adress:
+# https://www.geeksforgeeks.org/python-web-scraping-tutorial/
+
 # Making a GET request
 url = 'https://www.geeksforgeeks.org/python-programming-language/'
 r = requests.get(url)
