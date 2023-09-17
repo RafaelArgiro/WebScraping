@@ -82,5 +82,41 @@ soup = BeautifulSoup(r.content, 'html.parser')
 # -------------------- Finding all links
 
 # find all the anchor tags with "href"
-for link in soup.find_all('a'):
-    print(link.get('href'))
+# for link in soup.find_all('a'):
+#     print(link.get('href'))
+
+
+
+# -------------------- Finding all images
+
+# images_list = []
+ 
+# images = soup.select('img')
+# for image in images:
+#     src = image.get('src')
+#     alt = image.get('alt')
+#     images_list.append({"src": src, "alt": alt})
+     
+# for image in images_list:
+#     print(image)
+
+
+# -------------------- Looping over multiple pages
+
+
+URL = 'https://www.geeksforgeeks.org/page/'
+ 
+for page in range(1, 10):
+ 
+    req = requests.get(URL + str(page) + '/')
+    soup = BeautifulSoup(req.text, 'html.parser')
+ 
+    titles = soup.find_all('div', attrs={'class', 'head'})
+    print(page)
+    # print(titles)
+    for i in range(4, 19):
+        if page > 1:
+            print(f"{(i-3)+page*15}" + titles[i].text)
+        else:
+            # print(f"{i-3}" + titles)
+            print('hoi')
