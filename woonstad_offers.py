@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from tabulate import tabulate
+import json
 
 
 # ------------------------------------------------------------------
@@ -74,6 +75,13 @@ print_header()
 print('data[Data]')
 print_section()
 print(data['Data'])
+
+print_header()
+stuff = data['Items']
+print(type(stuff[0]))
+stuff_json = json.dumps(stuff[0], indent=4)
+print(type(stuff_json))
+print(stuff_json)
 
 
 
