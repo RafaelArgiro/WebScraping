@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 from tabulate import tabulate
 import json
 
@@ -63,14 +64,92 @@ data    = response.json()
 # print(list__[list__.index(key) + 4])
 
 
+# print_header()
+# print('data[Items]')
+# print_section()
+# print(data['Items'])
+# print_section()
+# print('type of data: \t \t' + str(type(data['Items'])))
+# print('Length of data list: \t ' + str(len(data['Items'])))
+# print_section()
+# print('First element of list:')
+# print('Type: \t \t' + str(type(data['Items'][0])))
+# print(data['Items'][0])
+
+# ------------------------------------------------------------------
+# -------------------- Convert dict to panda
+# ------------------------------------------------------------------
+
 print_header()
-print('data[Items]')
+stuff = data['Items']
+# print(stuff)
+
+# print_header()
+
+# print(stuff["Name"])
+# print(stuff["Id"])
+# print(stuff["Type"])
+# print(stuff["TypeTranslated"])
+# print(stuff["ObjectType"])
+# print(stuff["SalesType"])
+# print(stuff["Campaign"])
+# print(stuff["Url"])
+
+# Initialize with first item
+PandaData = pd.DataFrame.from_dict(stuff[0], orient='index')
+print(PandaData)
+# PandaData = pd.DataFrame.from_dict(stuff)
+# print(PandaData)
+
+# del stuff['Image']
+# print(stuff)
+
+# # Initialize with first item
+# PandaData2 = pd.DataFrame.from_dict(stuff, orient='index')
+# print(PandaData2)
+# PandaData2 = pd.DataFrame.from_dict(stuff, index=[0])
+# print(PandaData2)
+
+
+for ii in range(1, len(stuff)):
+    print_section()
+    
+    panda_ii = pd.DataFrame.from_dict(stuff[ii], orient='index')
+    PandaData = pd.concat([PandaData, panda_ii], axis=1)
+
+PandaData = PandaData.transpose()
+print(PandaData)
+
 print_section()
-print(data['Items'])
-print(len(data['Items']))
-print(type(data['Items']))
-print(data['Items'][0])
-print(type(data['Items'][0]))
+
+print(PandaData['Name'])
+    
+
+
+
+
+
+
+# print_section()
+# df1 = pd.DataFrame({"a":[1, 2, 3, 4],
+#                     "b":[5, 6, 7, 8]})
+
+# print(df1)
+# df2 = pd.DataFrame({"a":[1, 2, 3],
+#                     "b":[5, 6, 7],
+#                     "c":[1, 5, 4]})
+
+# hoi = pd.concat([df1, df2])
+# print(hoi)
+
+
+
+
+
+# print_header()
+# print(PandaData)
+# print()
+# print(PandaData.transpose)
 
 # print_header()
 # print('data[Data]')
@@ -79,10 +158,14 @@ print(type(data['Items'][0]))
 
 # print_header()
 # stuff = data['Items']
-# print(type(stuff[0]))
-# stuff_json = json.dumps(stuff[0], indent=4)
-# print(type(stuff_json))
-# print(stuff_json)
+
+# for ii in range(0, len(data['Items'])):
+
+#     print(type(stuff[ii]))
+#     stuff_json = json.dumps(stuff[ii], indent=2)
+#     print(type(stuff_json))
+#     print(stuff_json)
+
 
 
 
