@@ -70,18 +70,19 @@ print(data['Items'])
 print(len(data['Items']))
 print(type(data['Items']))
 print(data['Items'][0])
+print(type(data['Items'][0]))
 
-print_header()
-print('data[Data]')
-print_section()
-print(data['Data'])
+# print_header()
+# print('data[Data]')
+# print_section()
+# print(data['Data'])
 
-print_header()
-stuff = data['Items']
-print(type(stuff[0]))
-stuff_json = json.dumps(stuff[0], indent=4)
-print(type(stuff_json))
-print(stuff_json)
+# print_header()
+# stuff = data['Items']
+# print(type(stuff[0]))
+# stuff_json = json.dumps(stuff[0], indent=4)
+# print(type(stuff_json))
+# print(stuff_json)
 
 
 
