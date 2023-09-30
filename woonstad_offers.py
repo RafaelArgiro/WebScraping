@@ -57,7 +57,6 @@ offers_dict_name = dict_names[2]
 
 # Extract Woonstad offer data
 offers_data = data[offers_dict_name]
-print(type(offers_data))
 
 # Find the number of offers
 nr_of_offers = len(offers_data)
@@ -75,7 +74,7 @@ if nr_of_offers != total_count:
 # ------------------------------------------------------------------
 
 # Create empty DataFrame
-offers_pd = pd.DataFrame()
+offers_df = pd.DataFrame()
 
 # Load all data into DataFrame
 for offer in offers_data:
@@ -83,16 +82,33 @@ for offer in offers_data:
     # Remove 'Image' data from offer dict
     del offer['Image']
 
+    # Get name of current offer
+    name = offer['Name']
+    name = name.strip()
+
     # Convert to pandas
-    offer_pd = pd.DataFrame.from_dict(offer, orient='index')
+    offer_df = pd.DataFrame.from_dict(offer, orient='index', columns=[name])
 
     # Append to DataFrame
-    offers_pd = pd.concat([offers_pd, offer_pd], axis=1)
+    offers_df = pd.concat([offers_df, offer_df], axis=1)
 
 
 # ------------------------------------------------------------------
-# -------------------- Save to text file
+# -------------------- Add names to indices of DataFrame
 # ------------------------------------------------------------------
+
+
+
+print(offers_df)
+print_section()
+print(offers_df['Evenaar 219'])
+print_section()
+print(offers_df.index[0])
+
+
+# # ------------------------------------------------------------------
+# # -------------------- Save to text file
+# # ------------------------------------------------------------------
 
 # Get date and time stamp
 datetime_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -112,8 +128,10 @@ directory = 'Woonstad_Offer_Data'
 file_name = 'Offers_' + datetime_str + '.txt'
 
 # Construct full path
-file_path = os.path.join(current_dir, directory, file_name)
+# file_path = os.path.join(current_dir, directory, file_name)
+file_path = os.path.join(current_dir, directory, 'Offers_test.txt')
+
 
 # Safe offer data to '.txt' file in csv format
-offers_pd.to_csv(file_path, sep=',', header=False, index=False)
+offers_df.to_csv(file_path, sep=',')
 
