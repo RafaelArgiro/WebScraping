@@ -94,21 +94,62 @@ for offer in offers_data:
 
 
 # ------------------------------------------------------------------
-# -------------------- Add names to indices of DataFrame
+# -------------------- Read data from previous scrape
 # ------------------------------------------------------------------
 
 
 
-print(offers_df)
-print_section()
-print(offers_df['Evenaar 219'])
-print_section()
-print(offers_df.index[0])
+# Get current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Specify directory to save the file
+directory = 'Woonstad_Offer_Data'
+
+# Construct file name
+file_name = 'Offers_test.txt'
+
+full_path = os.path.join(current_dir, directory, file_name)
+
+offers_previous = pd.read_csv(full_path, index_col=0)
 
 
-# # ------------------------------------------------------------------
-# # -------------------- Save to text file
-# # ------------------------------------------------------------------
+# ------------------------------------------------------------------
+# -------------------- Checking if data is the same
+# ------------------------------------------------------------------
+
+# print_header()
+# print(offers_df)
+# print_header()
+# print(offers_previous)
+
+
+# # Storing data in dictionary
+# details = {
+#     'Column1': [1, 2, 3, 4],
+#     'Column2': [7, 4, 25, 9],
+#     'Column3': [3, 8, 10, 30],
+#     'Column4': [7, 4, 25, 9],
+# }
+ 
+# # creating a Dataframe object
+# df = pd.DataFrame(details)
+ 
+# print(df['Column4'].equals(df['Column2']))  # Returns True
+ 
+print_header()
+nr = 18
+print(nr)
+print_section()
+print(offers_df.iloc[nr])
+print_section()
+print(offers_previous.iloc[nr])
+print_section()
+print(offers_df.iloc[nr].equals(offers_previous.iloc[nr]))
+
+
+# ------------------------------------------------------------------
+# -------------------- Save to text file
+# ------------------------------------------------------------------
 
 # Get date and time stamp
 datetime_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -129,7 +170,7 @@ file_name = 'Offers_' + datetime_str + '.txt'
 
 # Construct full path
 # file_path = os.path.join(current_dir, directory, file_name)
-file_path = os.path.join(current_dir, directory, 'Offers_test.txt')
+file_path = os.path.join(current_dir, directory, 'Offers_test2.txt')
 
 
 # Safe offer data to '.txt' file in csv format
