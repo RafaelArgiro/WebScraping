@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from tabulate import tabulate
-import json
 
 
 # ------------------------------------------------------------------
@@ -39,137 +38,56 @@ print()
 print("Status code: " + str(response.status_code))
 print()
 
-
-# Parse data
+# Parse data using json method to dict
 data    = response.json()
 
-# print(type(data))
-# print(data)
-
-# print_header()
-# print('data[SubTypes]')
-# print_section()
-# print(data['SubTypes'])
-
-# print_header()
-# print('data[Filters]')
-# print_section()
-# print(data['Filters'])
-
-# list__ = list(data)
-
-# key = 'SubTypes'
-
-# print_header()
-# print(list__[list__.index(key) + 4])
 
 
-# print_header()
-# print('data[Items]')
-# print_section()
-# print(data['Items'])
-# print_section()
-# print('type of data: \t \t' + str(type(data['Items'])))
-# print('Length of data list: \t ' + str(len(data['Items'])))
-# print_section()
-# print('First element of list:')
-# print('Type: \t \t' + str(type(data['Items'][0])))
-# print(data['Items'][0])
+# ------------------------------------------------------------------
+# -------------------- Pre-process data
+# ------------------------------------------------------------------
+
+# Find all dict names by converting data to list object
+dict_names = list(data)
+
+# The Woonstad offers are contained in the third dict item
+offers_dict_name = dict_names[2]
+
+# Extract Woonstad offer data
+offers_data = data[offers_dict_name]
+print(type(offers_data))
+
+# Find the number of offers
+nr_of_offers = len(offers_data)
+
+# Check with the total count from the scraped data
+total_count = data[dict_names[-1]]['TotalCount']
+
+# Raise warning if not all offers have been scraped correctly
+if nr_of_offers != total_count:
+    raise Warning("Number of offers scraped not equal to total nr of offers.")
+
+
 
 # ------------------------------------------------------------------
 # -------------------- Convert dict to panda
 # ------------------------------------------------------------------
 
-print_header()
-stuff = data['Items']
-# print(stuff)
+# Create empty DataFrame
+offers_pd = pd.DataFrame()
 
-# print_header()
+# Load all data into DataFrame
+for offer in offers_data:
 
-# print(stuff["Name"])
-# print(stuff["Id"])
-# print(stuff["Type"])
-# print(stuff["TypeTranslated"])
-# print(stuff["ObjectType"])
-# print(stuff["SalesType"])
-# print(stuff["Campaign"])
-# print(stuff["Url"])
+    # Remove 'Image' data from offer dict
+    del offer['Image']
 
-# Initialize with first item
-PandaData = pd.DataFrame.from_dict(stuff[0], orient='index')
-print(PandaData)
-# PandaData = pd.DataFrame.from_dict(stuff)
-# print(PandaData)
+    # Convert to pandas
+    offer_pd = pd.DataFrame.from_dict(offer, orient='index')
 
-# del stuff['Image']
-# print(stuff)
-
-# # Initialize with first item
-# PandaData2 = pd.DataFrame.from_dict(stuff, orient='index')
-# print(PandaData2)
-# PandaData2 = pd.DataFrame.from_dict(stuff, index=[0])
-# print(PandaData2)
+    # Append to DataFrame
+    offers_pd = pd.concat([offers_pd, offer_pd], axis=1)
 
 
-for ii in range(1, len(stuff)):
-    print_section()
-    
-    panda_ii = pd.DataFrame.from_dict(stuff[ii], orient='index')
-    PandaData = pd.concat([PandaData, panda_ii], axis=1)
-
-PandaData = PandaData.transpose()
-print(PandaData)
-
-print_section()
-
-print(PandaData['Name'])
-    
-
-
-
-
-
-
-# print_section()
-# df1 = pd.DataFrame({"a":[1, 2, 3, 4],
-#                     "b":[5, 6, 7, 8]})
-
-# print(df1)
-# df2 = pd.DataFrame({"a":[1, 2, 3],
-#                     "b":[5, 6, 7],
-#                     "c":[1, 5, 4]})
-
-# hoi = pd.concat([df1, df2])
-# print(hoi)
-
-
-
-
-
-# print_header()
-# print(PandaData)
-# print()
-# print(PandaData.transpose)
-
-# print_header()
-# print('data[Data]')
-# print_section()
-# print(data['Data'])
-
-# print_header()
-# stuff = data['Items']
-
-# for ii in range(0, len(data['Items'])):
-
-#     print(type(stuff[ii]))
-#     stuff_json = json.dumps(stuff[ii], indent=2)
-#     print(type(stuff_json))
-#     print(stuff_json)
-
-
-
-
-
-
-
+print(offers_pd)
 
