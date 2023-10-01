@@ -76,7 +76,6 @@ if nr_of_offers != total_count:
 # Create empty DataFrame
 offers_df = pd.DataFrame()
 
-print(len(offers_data))
 # Load all data into DataFrame
 for offer in offers_data:
 
@@ -98,8 +97,6 @@ for offer in offers_data:
 # ------------------------------------------------------------------
 # -------------------- Read data from previous scrape
 # ------------------------------------------------------------------
-
-
 
 # Get current directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -123,90 +120,51 @@ offers_previous = pd.read_csv(full_path, index_col=0)
 offers_df       = offers_df.transpose()
 offers_previous = offers_previous.transpose()
 
-# offers_df['Price'] = offers_df['Price'].astype('str')
-# offers_df['ServiceCosts'] = offers_df['ServiceCosts'].astype('str')
-# offers_df['TotalPrice'] = offers_df['TotalPrice'].astype('str')
+# Convert Float data to string data in newly scraped data
+offers_df['Price'] = offers_df['Price'].astype('str')
+offers_df['ServiceCosts'] = offers_df['ServiceCosts'].astype('str')
+offers_df['TotalPrice'] = offers_df['TotalPrice'].astype('str')
 
-
-
-
-print_header()
-print(offers_df['Campaign'].equals(offers_previous['Campaign']))
-
-
+# Convert replace nan data with 'nothing
 offers_previous['Campaign'] = offers_previous['Campaign'].astype('str')
-
 offers_previous['Campaign'] = offers_previous['Campaign'].replace('nan', '')
 
-# offers_df['Surface'] = offers_df['Surface'].astype('str')
+# Transpose data back
+offers_df       = offers_df.transpose()
+offers_previous = offers_previous.transpose()
 
+# Check if newly scraped data is the same as previous data
+data_is_different = not offers_df.equals(offers_previous)
 
-print_header()
-print(offers_df['Campaign'][0])
-print_section()
-print(offers_previous['Campaign'][0])
+print(data_is_different)
 
-
-print_header()
-print(offers_df['Campaign'].equals(offers_previous['Campaign']))
-
-
-# print_header()
-# print(offers_df.equals(offers_previous))
-
-
-
-# print_header()
-# print(offers_df.transpose().dtypes)
-# print_header()
-# print(offers_previous.transpose().dtypes)
-
-
-
-# print_header()
-# print(offers_df.dtypes)
-# print_section()
-# print(offers_previous.dtypes)
-
-
-# for ii in range(0, 19):
-#     print_header()
-#     nr = ii
-#     print(nr)
-#     print_section()
-#     print(offers_df.iloc[nr])
-#     print_section()
-#     print(offers_previous.iloc[nr])
-#     print_section()
-#     print(offers_df.iloc[nr].equals(offers_previous.iloc[nr]))
 
 
 # ------------------------------------------------------------------
 # -------------------- Save to text file
 # ------------------------------------------------------------------
 
-# # Get date and time stamp
-# datetime_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+# Get date and time stamp
+datetime_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# # Format datetime string
-# datetime_str = datetime_str.replace(':', '.')
-# datetime_str = datetime_str.replace(' ', '_')
-# datetime_str = datetime_str.replace('-', '.')
+# Format datetime string
+datetime_str = datetime_str.replace(':', '.')
+datetime_str = datetime_str.replace(' ', '_')
+datetime_str = datetime_str.replace('-', '.')
 
-# # Get current directory
-# current_dir = os.path.dirname(os.path.abspath(__file__))
+# Get current directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# # Specify directory to save the file
-# directory = 'Woonstad_Offer_Data'
+# Specify directory to save the file
+directory = 'Woonstad_Offer_Data'
 
-# # Construct file name
-# file_name = 'Offers_' + datetime_str + '.txt'
+# Construct file name
+file_name = 'Offers_' + datetime_str + '.txt'
 
-# # Construct full path
-# # file_path = os.path.join(current_dir, directory, file_name)
-# file_path = os.path.join(current_dir, directory, 'Offers_test3.txt')
+# Construct full path
+# file_path = os.path.join(current_dir, directory, file_name)
+file_path = os.path.join(current_dir, directory, 'Offers_test3.txt')
 
-
-# # Safe offer data to '.txt' file in csv format
-# offers_df.to_csv(file_path, sep=',')
-
+# Save offer data to '.txt' file in csv format (if new data is different from previous scrape )
+if data_is_different:
+    offers_df.to_csv(file_path, sep=',')
