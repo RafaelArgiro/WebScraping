@@ -7,3 +7,7 @@ https://opensource.com/article/21/9/web-scraping-python-beautiful-soup
 https://www.youtube.com/watch?v=8dTpNajxaH0&ab_channel=AlexTheAnalyst
 
 https://www.geeksforgeeks.org/python-requests-tutorial/
+
+
+https://www.youtube.com/watch?v=dcqPhpY7tWk&ab_channel=PythonProgrammer
+https://www.youtube.com/watch?v=TTDh-h_EqRI&ab_channel=GregKamradt%28DataIndy%29
