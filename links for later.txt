@@ -1,0 +1,9 @@
+https://www.geeksforgeeks.org/implementing-web-scraping-python-beautiful-soup/
+https://www.geeksforgeeks.org/authentication-using-python-requests/?ref=lbp
+
+https://opensource.com/article/21/9/web-scraping-python-beautiful-soup
+https://opensource.com/article/21/9/web-scraping-python-beautiful-soup
+
+https://www.youtube.com/watch?v=8dTpNajxaH0&ab_channel=AlexTheAnalyst
+
+https://www.geeksforgeeks.org/python-requests-tutorial/

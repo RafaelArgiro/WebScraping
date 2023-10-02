@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+# Tutorial webpage: https://realpython.com/beautiful-soup-web-scraper-python/
+
 url = 'https://realpython.github.io/fake-jobs/'
 
 html = requests.get(url)
