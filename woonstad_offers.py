@@ -36,11 +36,44 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Specify directory for saving and recovering scraped data
 directory   = 'Woonstad_Offer_Data'
 
+# Path to data
+data_path = os.path.join(current_dir, directory)
+
+
+
+# ------------------------------------------------------------------
+# -------------------- Load previous scrape data
+# ------------------------------------------------------------------
+
+# Get list of scape output files
+data_files_list = os.listdir(data_path)
+
+# Initialize list for actual data files
+actual_data_files_list = []
+
+# Filter out test files by file name
+for name in data_files_list:
+    if "Offers" in name:
+        actual_data_files_list.append(name)
+
+# Get file name from most recent scrape file
+most_recent_file = actual_data_files_list[-1]
+
+# Set file name
+file_name_previous_scrape = 'Test1.txt'
+file_name_previous_scrape = most_recent_file
+
+# Construct full path to previous file
+path_previous_scrape = os.path.join(current_dir, directory, file_name_previous_scrape)
+
+# Read in previous offer data as panda DataFrame
+offers_previous = pd.read_csv(path_previous_scrape, index_col=0)
+
+
 
 # ------------------------------------------------------------------
 # -------------------- Scrape offers from Woonstad
 # ------------------------------------------------------------------
-
 
 # Web-addresses to scrape
 url = 'https://www.woonstadrotterdam.nl/api/Offers/SearchVshOfferings?sort=default&page=1&size=100&otype='
@@ -59,7 +92,7 @@ data    = response.json()
 
 
 # ------------------------------------------------------------------
-# -------------------- Pre-process data
+# -------------------- Pre-process scraped data
 # ------------------------------------------------------------------
 
 # Find all dict names by converting data to list object
@@ -109,20 +142,6 @@ for offer in offers_data:
 
 
 # ------------------------------------------------------------------
-# -------------------- Read data from previous scrape
-# ------------------------------------------------------------------
-
-# Construct file name
-file_name = 'Test2.txt'
-
-# Construct full path to previous file
-full_path = os.path.join(current_dir, directory, file_name)
-
-# Read in previous offer data as panda DataFrame
-offers_previous = pd.read_csv(full_path, index_col=0)
-
-
-# ------------------------------------------------------------------
 # -------------------- Checking if data is the same
 # ------------------------------------------------------------------
 
@@ -146,7 +165,8 @@ offers_previous = offers_previous.transpose()
 # Check if newly scraped data is the same as previous data
 data_is_different = not offers_df.equals(offers_previous)
 
-print("Data different from previous scrape: " + str(data_is_different))
+print("Refence data taken from: \t \t" + file_name_previous_scrape)
+print("Data different from previous scrape: \t" + str(data_is_different))
 
 
 
@@ -177,5 +197,5 @@ if save_data:
     offers_df.to_csv(file_path, sep=',')
 
 # Print if data has been saved:
-print("Data has been saved: " + str(save_data))
+print("Data has been saved: \t \t \t" + str(save_data))
 print_section()
