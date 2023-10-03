@@ -28,7 +28,7 @@ def print_section():
 # ------------------------------------------------------------------
 
 # File save settings
-save_file   = False
+save_file   = True
 
 # Get current directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -142,7 +142,7 @@ for offer in offers_data:
 
 
 # ------------------------------------------------------------------
-# -------------------- Checking if data is the same
+# -------------------- Checking if offer data is the same
 # ------------------------------------------------------------------
 
 # Transpose data
@@ -165,7 +165,7 @@ offers_previous = offers_previous.transpose()
 # Check if newly scraped data is the same as previous data
 data_is_different = not offers_df.equals(offers_previous)
 
-print("Refence data taken from: \t \t" + file_name_previous_scrape)
+print("Reference data taken from: \t \t" + file_name_previous_scrape)
 print("Data different from previous scrape: \t" + str(data_is_different))
 
 
